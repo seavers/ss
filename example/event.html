@@ -1,0 +1,39 @@
+<script src="../src/event.js"></script>
+<script>
+
+function log(a,b,c,d) {
+	console.log(a,b,c,d);
+	document.write(a + ' ' + b + ' ' + c + ' ' + d + '<br/>');
+}
+
+var obj = Object.create(Event);
+obj.on('open', function(x, y) {
+	log('opened', this, x, y);
+	log('opened', this, x, y);
+	log('opened', this, x, y);
+	log('opened', this, x, y);
+	log('closed', this, x, y);
+});
+obj.on('once', function(x, y) {
+	log('once', this, x, y);
+});
+obj.on('once', function(x, y) {
+	this.off('once', arguments.callee);
+	log('once2', this, x, y);
+});
+
+obj.trigger('open');
+obj.trigger('close', 'hello', {'name' : 'qz'});
+obj.off('close');
+obj.trigger('close', 'hello', {'name': 'qz'});
+obj.trigger('once');
+obj.trigger('once');
+
+obj.off('noexist');
+obj.trigger('open', 'twice');
+obj.off();
+obj.off('close');
+obj.trigger('open');
+
+
+</script>
